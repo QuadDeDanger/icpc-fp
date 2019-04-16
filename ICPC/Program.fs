@@ -2,26 +2,28 @@
 open System
 open System
 
-let commaSprinkler input =
+let commaSprinkler (input:string) =
  let INPUT = [|input|]
- //let x = input.Split []
- match input="" || input.Length=1 || input=" _" || INPUT.[0]=" "|| INPUT.[0]=","  with
-  |true -> None
-  |_->Some input(*_-> match input.Split(" ") with
-       | -> Some " "
-       |*)
+ match input.Length=0 || input.Length =1 with
+ |true -> None
+ |_-> match input.[0] = ' ' || input.[0] = ',' with
+      |true-> None
+      |_-> match input.[input.Length-1]='.' &&  Char.IsUpper(input.[input.Length-2]) || input.Contains('?') with
+           |true -> None
+           |_-> match input.[input.Length-1]='.' && input.[input.Length-1]<>' ' with
+                |false-> None
+                |true-> Some input
 
 let rivers (input:string) =
- let x= input.Split( ',' , StringSplitOptions.None);
- let space = input.Split [|' '|]
- let i=input.Split[|'!'|]
- let j=input.Split[|','|]
- let liiiiist= [input]
- match x with 
-  |[| "" |]-> None
-  |[| _ |] -> match space.Length < 1 with
-              |true -> None
-              |_->Some input.Length
+ let space = input.Split(' ')
+ match input.Length=0 with
+ |true -> None
+ |false->
+ match input.Length<>0 || input.Contains('!') || input.Contains(',') || input.[input.Length-1]= ' ' || input.[0] = ' ' with
+ |true -> None
+ |_-> match  input.Contains(' ') with
+      |false-> None
+      |true -> Some input.Length
 
 [<EntryPoint>]
 let main argv =
