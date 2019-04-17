@@ -48,22 +48,10 @@ let commaSprinkler (input:string) =
            |true -> None
            |_-> match input.[input.Length-1]='.' && input.[input.Length-1]<>' ' with
                 |false-> None
-
-                |true-> Some input
-
-(*let rivers (input:string) =
- match input.Length=0 with
- |true -> None
- |false->
- match input.Length<>0 || input.Contains('!') || input.Contains(',') || input.[input.Length-1]= ' ' || input.[0] = ' ' with
- |true -> None
- |_-> match  input.Contains(' ') with
-      |false-> None
-      |true -> Some input.Length
-
                 |true-> match input.Contains(',') || input.Contains("  ") || input.Contains(" ,") || input.Contains(" .") || input.Contains("...") || input.Contains(". .") with
                         |true -> None
-                        |_-> Some input*)
+                        |_-> Some input
+
 
 let rivers (input:string) =
  //let space = input.Split(' ')
