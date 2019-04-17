@@ -2,6 +2,7 @@
 
 open System
 open System
+open System.Runtime.InteropServices
 
 
 let check (inp:char)=
@@ -14,33 +15,45 @@ let str (inp:string)=
    |true->true
    |_->false
 
-(*let checkInput (inp:string)=
-    let rec sentence (input:string) counter =
-     match counter>=input.Length with
-     |true->true
-     |_-> 
-        match input[counter]='.'&& counter<>(input.Length-1) with
-        |true->*)
-(*let commaSprinkler input =
-    match input=""||input.Length=1||input.[0]=' '||input.[0]=',' ||input.[input.Length-1]<>'.'||input.Contains('?')||input.Contains('!')|| (str input) with 
+let errorCase4 (inp:string)=
+    let rec ff (yi:string) i list=
+       match i=yi.Length with 
+       |false-> 
+          match System.Char.IsLetter(yi.[i])||System.Char.IsWhiteSpace(yi.[i]) with
+          |true->ff yi (i+1) (true::list)
+          |_->
+            match yi.[i]=',' with
+            |true->
+                match System.Char.IsWhiteSpace(yi.[i+1])&&System.Char.IsLetter(yi.[i+2])&&System.Char.IsLetter(yi.[i-1]) with
+                |true ->ff yi (i+1) (true::list)
+                |false->ff yi (i+1) (false::list)
+            |false->
+                match yi.[i]='.' with
+                |true-> 
+                    match yi.LastIndexOf('.')=i with
+                    |true ->
+                        match System.Char.IsLetter(yi.[i-1]) with
+                        |true ->ff yi (i+1) (true::list)
+                        |false->ff yi (i+1) (false::list)
+                    |false->
+                    match System.Char.IsWhiteSpace(yi.[i+1])&&System.Char.IsLetter(yi.[i-1])&&System.Char.IsLetter(yi.[i+2]) with
+                     |true ->ff yi (i+1) (true::list)
+                     |false->ff yi (i+1) (false::list)
+                |false-> ff yi (i+1) (false::list)
+       |_->list
+    let sequ=ff inp 0 []|>List.toSeq|>Seq.contains(false)
+    match sequ with
+    |true->true
+    |_->false
+
+  
+let commaSprinkler input =
+    match input=""||input.Length=1||input.[0]=' '||input.[0]=',' ||input.[input.Length-1]<>'.'||input.Contains('?')||input.Contains('!')|| (str input)||(errorCase4 input) with 
     |true->None
-    |_->Some input*)
+    |_->Some input
     
-let numOfWords (inp:string)= 
-    let s=inp.Trim()
-    match s=inp with 
-    |false->false
-    |_->  
-
-        let s=inp.Split(' ')
-        match s.Length>=2 with
-        |true->true
-        |_->false
-
-
-let commaSprinkler (input:string) =
- let INPUT = [|input|]
- match input.Length=0 || input.Length =1 with
+(*let commaSprinkler (input:string) =
+ match input.Length=0 || input.Length =1|| (errorCase4 input) with
  |true -> None
  |_-> match input.[0] = ' ' || input.[0] = ',' with
       |true-> None
@@ -49,21 +62,7 @@ let commaSprinkler (input:string) =
            |_-> match input.[input.Length-1]='.' && input.[input.Length-1]<>' ' with
                 |false-> None
 
-                |true-> Some input
-
-(*let rivers (input:string) =
- match input.Length=0 with
- |true -> None
- |false->
- match input.Length<>0 || input.Contains('!') || input.Contains(',') || input.[input.Length-1]= ' ' || input.[0] = ' ' with
- |true -> None
- |_-> match  input.Contains(' ') with
-      |false-> None
-      |true -> Some input.Length
-
-                |true-> match input.Contains(',') || input.Contains("  ") || input.Contains(" ,") || input.Contains(" .") || input.Contains("...") || input.Contains(". .") with
-                        |true -> None
-                        |_-> Some input*)
+                |true-> Some input*)
 
 let rivers (input:string) =
  //let space = input.Split(' ')
